@@ -1,0 +1,35 @@
+{
+  "name": "@striderlabs/mcp-airbnb",
+  "version": "0.1.0",
+  "description": "MCP server for Airbnb - let AI agents search listings, check availability, manage reservations, and book stays",
+  "main": "dist/index.js",
+  "bin": {
+    "striderlabs-mcp-airbnb": "dist/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "airbnb",
+    "travel",
+    "booking",
+    "ai-agent",
+    "strider",
+    "model-context-protocol",
+    "browser-automation",
+    "playwright"
+  ],
+  "author": "Strider Labs <hello@striderlabs.ai>",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "playwright": "^1.40.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  }
+}
