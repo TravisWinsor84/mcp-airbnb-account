@@ -1,98 +1,40 @@
-# @striderlabs/mcp-airbnb
+# Airbnb account management for Codex
 
-MCP server for Airbnb — lets AI agents search listings, check availability, manage reservations, and book stays via browser automation.
+A separate account-management skill using **Codex's built-in browser/computer-use
+tools in your real Chrome profile**. It does not start or install another browser
+MCP, export cookies, or require a debugging port.
 
-Built by [Strider Labs](https://striderlabs.ai).
+## Install
 
-## Features
+Copy `skills/airbnb-account-management` into your Codex skills directory
+(usually `~/.codex/skills`). Enable Codex's Chrome/computer-use connection.
+Invoke `$airbnb-account-management` or ask to manage an Airbnb account.
 
-- **14 tools** covering the full Airbnb workflow
-- Playwright-based browser automation (headless Chromium)
-- Stealth patches to avoid bot detection
-- Cookie persistence for session management
-- Random delays between actions to mimic human behavior
-- Graceful CAPTCHA handling
-- JSON responses with `success`/`error` fields on all tools
+The skill supports signed-in navigation, wishlists, trips, host messaging,
+booking/cancellation review and requested account updates through Airbnb's UI.
+These are guided browser workflows, **not a stable private Airbnb API**.
+Codex's action-time confirmation rules apply. Password changes and verification
+remain with the user.
 
-## Tools
+For public search and listing extraction use
+[the separate read-only MCP and skill](https://github.com/TravisWinsor84/mcp-server-airbnb).
 
-| Tool | Description |
-|------|-------------|
-| `airbnb_status` | Check login status and session info |
-| `airbnb_login` | Initiate login flow (returns URL + instructions) |
-| `airbnb_logout` | Clear session and cookies |
-| `airbnb_search` | Search listings by location, dates, guests |
-| `airbnb_get_listing` | Get full listing details by ID or URL |
-| `airbnb_check_availability` | Check if a listing is available for dates |
-| `airbnb_get_price` | Get full price breakdown (nightly, cleaning, service, taxes, total) |
-| `airbnb_save_listing` | Save a listing to wishlist |
-| `airbnb_get_saved` | View saved wishlists |
-| `airbnb_book` | Book a listing (requires `confirm=true` + user confirmation) |
-| `airbnb_get_reservations` | View upcoming or past reservations |
-| `airbnb_cancel_reservation` | Cancel a reservation (requires `confirm=true`) |
-| `airbnb_message_host` | Send a message to a host |
-| `airbnb_get_reviews` | Get guest reviews for a listing |
+## Verification
 
-## Installation
+On 10 September 2026, the Codex Chrome extension successfully opened the existing
+signed-in Airbnb account and read its account-settings and wishlists pages.
+No credentials were copied. No account write was performed as a test. Booking,
+cancellation and message-delivery flows are therefore not claimed as live-tested.
 
-```bash
-npm install -g @striderlabs/mcp-airbnb
-npx playwright install chromium
-```
+The skill is validated structurally and with scenario-based independent review.
+`npm test` checks packaging and local references; it does not test live Airbnb
+writes. This package has no runtime dependencies.
 
-## Usage with Claude Desktop
+## Fork provenance
 
-Add to your `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "airbnb": {
-      "command": "striderlabs-mcp-airbnb"
-    }
-  }
-}
-```
-
-Or with `npx`:
-
-```json
-{
-  "mcpServers": {
-    "airbnb": {
-      "command": "npx",
-      "args": ["-y", "@striderlabs/mcp-airbnb"]
-    }
-  }
-}
-```
-
-## Authentication
-
-Airbnb requires manual login (no API key). The server saves session cookies so you only need to log in once.
-
-1. Ask your AI agent: *"Check my Airbnb login status"*
-2. If not logged in, use `airbnb_login` to get the login URL
-3. Open the URL in your browser and log in
-4. Run `airbnb_status` to confirm the session is active
-
-Cookies are stored at `~/.strider/airbnb/cookies.json`.
-
-## Safety
-
-- **Booking** (`airbnb_book`) and **cancellation** (`airbnb_cancel_reservation`) require explicit `confirm=true` — they return a preview otherwise
-- The agent will never book or cancel without your confirmation
-- All destructive actions include clear warnings
-
-## Development
-
-```bash
-npm install
-npx playwright install chromium
-npm run build
-npm start
-```
-
-## License
-
-MIT — Strider Labs
+This repository was forked from markswendsen-code/mcp-airbnb (Strider Labs).
+The original approach's account workflow categories informed the skill.
+Its headless browser, cookie-file implementation and optimistic success claims
+are not shipped in the default tree. The Git history retains upstream authorship.
+An intermediate local browser prototype was retired when the user explicitly
+chose Codex's built-in tools. See [UPSTREAM.md](UPSTREAM.md).

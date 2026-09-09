@@ -1,0 +1,4 @@
+interface:
+  display_name: "Airbnb Account Management"
+  short_description: "Manage Airbnb through your real Chrome account"
+  default_prompt: "Use $airbnb-account-management to help manage my Airbnb account."
